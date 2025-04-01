@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Home on A minimal Hugo website</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content in Home on A minimal Hugo website</description>
+    <title>Coding on A minimal Hugo website</title>
+    <link>http://localhost:1313/categories/coding/</link>
+    <description>Recent content in Coding on A minimal Hugo website</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 01 Apr 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/coding/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Cheatsheet of Git</title>
       <link>http://localhost:1313/post/2025/04/01/a-cheatsheet-of-git/</link>
       <pubDate>Tue, 01 Apr 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/post/2025/04/01/a-cheatsheet-of-git/</guid>
       <description>&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;&#xA;&lt;p&gt;The configuration can be set as global, user, local. Here is an example.&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;git config --global user.name &amp;quot;Chu Jiacheng&amp;quot;&#xA;git config --global user.email &amp;quot;moonviewr@163.com&amp;quot;&#xA;git config --global core.editor &amp;quot;code --wait&amp;quot;&#xA;git config --global -e&#xA;git config --global core.autocrlf input&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h2 id=&#34;set-your-repository&#34;&gt;Set Your Repository&lt;/h2&gt;&#xA;&lt;pre&gt;&lt;code&gt;cd your_repository&#xA;git init&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h2 id=&#34;workflow-of-git&#34;&gt;Workflow of Git&lt;/h2&gt;&#xA;&lt;p&gt;When we change the files in the working directory, we can stage the files where a snapshot is generated in a staging area. Once we confirm that the changes are fine, we commit the snapshot to Git. Git preserves all commits along with their associated snapshots, so we can recover any commit at any time.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>About Hugo XMin</title>
-      <link>http://localhost:1313/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/about/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;XMin&lt;/strong&gt; is the first Hugo theme I have designed. The original reason that I wrote it was I needed a minimal example of Hugo themes when I was writing the  &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;&lt;strong&gt;blogdown&lt;/strong&gt;&lt;/a&gt; book. Basically I wanted a simple theme that supports a navigation menu, a home page, other single pages, lists of pages, blog posts, categories, tags, and RSS. That is all. Nothing fancy. In terms of CSS and JavaScript, I really want to keep them minimal. In fact, this theme does not contain any JavaScript code at all, although on this example website I did introduce some JavaScript code (still relatively simple anyway). The theme does not contain any images, either, and is pretty much a plain-text theme.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

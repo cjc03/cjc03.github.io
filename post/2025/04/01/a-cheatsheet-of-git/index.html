@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A Cheatsheet of Git | A minimal Hugo website</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/post/">Posts</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+<div class="article-meta">
+<h1><span class="title">A Cheatsheet of Git</span></h1>
+<h2 class="author">Moonviewr</h2>
+<h2 class="date">2025/04/01</h2>
+</div>
+
+<main>
+<h2 id="configuration">Configuration</h2>
+<p>The configuration can be set as global, user, local. Here is an example.</p>
+<pre><code>git config --global user.name &quot;Chu Jiacheng&quot;
+git config --global user.email &quot;moonviewr@163.com&quot;
+git config --global core.editor &quot;code --wait&quot;
+git config --global -e
+git config --global core.autocrlf input
+</code></pre>
+<h2 id="set-your-repository">Set Your Repository</h2>
+<pre><code>cd your_repository
+git init
+</code></pre>
+<h2 id="workflow-of-git">Workflow of Git</h2>
+<p>When we change the files in the working directory, we can stage the files where a snapshot is generated in a staging area. Once we confirm that the changes are fine, we commit the snapshot to Git. Git preserves all commits along with their associated snapshots, so we can recover any commit at any time.</p>
+<h2 id="a-simple-example">A Simple Example</h2>
+<p>First we add some files in the working directory.</p>
+<pre><code>echo hello &gt; file1.txt
+echo hello &gt; file2.txt
+</code></pre>
+<p>Note that we have only added the files but haven&rsquo;t staged them in the staging area, let alone committed them. We can also check the status using the following command.</p>
+<pre><code>git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+	.DS_Store
+	file1.txt
+	file2.txt
+
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+</code></pre>
+<p>Since it reminds us that there are two untracked files, we can use <code>git add</code> to add them to the staging area.</p>
+<pre><code>git add .
+git add file1.txt file2.txt
+git add *.txt
+</code></pre>
+<p>Now, we want to make changes to <code>file1.txt</code>. Let&rsquo;s see what happens.</p>
+<pre><code>echo world &gt;&gt; file1.txt
+git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)
+	new file:   .DS_Store
+	new file:   file1.txt
+	new file:   file2.txt
+
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+	modified:   file1.txt
+</code></pre>
+<p>To update <code>file1.txt</code> to the staging area, use <code>git add</code> again.</p>
+<pre><code>git add .
+</code></pre>
+<p>Finally, we can commit the files in the staging area and add a message to the commit.</p>
+<pre><code>git commit -m &quot;Initial Commit.&quot;
+</code></pre>
+<p>Sometimes, we need a more detailed description of the changes, so we can use <code>git commit</code> directly and add the description in the <code>COMMIT_EDITMSG</code> file. The first line should be a short description, and after a blank line, you can add a more detailed description.</p>
+<h2 id="skip-the-staging-area">Skip the Staging Area</h2>
+<p>We are not required to commit after staging the changes. You can commit directly, skipping the staging step, if you are 100% sure your changes are fine, as the staging area is designed for review. Here <code>a</code> means all modified files.</p>
+<pre><code>git commit -am &quot;Debug.&quot;
+</code></pre>
+<p>Committing directly only commits the <strong>modified, tracked</strong> files by automatically staging the modified files. <strong>Untracked</strong> files will not be committed.</p>
+<h2 id="remove-the-files">Remove the files</h2>
+<p>Sometimes we may remove files not used.</p>
+<pre><code>rm file2.txt
+git status
+On branch main
+Changes not staged for commit:
+  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+	deleted:    file2.txt
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</code></pre>
+<p>Of course, we can commit directly since the deleted file is tracked, skipping the staging area. <code>git ls-files</code> displays the files in the staging area, and the file is removed. But if you want to use the staging area, you should use <code>git add</code> to stage the changes, and then commit.</p>
+<pre><code>rm file2.txt
+git add file2.txt
+git ls-files
+git commoit -m &quot;Deletion.&quot;
+</code></pre>
+<p>Git provides a more convenient way to remove files. <code>git rm</code> removes files in both working directory and staging area.</p>
+<pre><code>git rm file2.txt
+git ls-files
+git commoit -m &quot;Deletion.&quot;
+</code></pre>
+<h2 id="renaming-and-moving-files">Renaming and Moving Files</h2>
+<p>Here we use <code>mv</code> to rename the <code>file1.txt</code> file. Since Git does not track your files automatically, it finds an untracked new file <code>man.js</code> and marks <code>file1.txt</code> as deleted. It will be interesting if you rename it back again.</p>
+<pre><code>mv file1.txt main.js
+git status
+On branch main
+Changes not staged for commit:
+  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+	deleted:    file1.txt
+
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+	main.js
+</code></pre>
+<p>To stage the changes, we need to use <code>git add</code> for both the deletion and addition after renaming the file, so Git knows that you rename the file. Similar to <code>git rm</code>, we have a convenient command to do both actions together.</p>
+<pre><code>git mv file1.txt main.js
+git status
+On branch main
+Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+	renamed:    file1.txt -&gt; main.js
+</code></pre>
+<h2 id="ignoring-files">Ignoring Files</h2>
+<p>There are some logs or binary files generated by the code. Typically ,we don&rsquo;t want Git to track these files, so we can add them to <code>.gitignore</code> to make Git ignore them.</p>
+<pre><code>mkdir logs
+echo hello &gt; logs/dev.log
+git status
+On branch main
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+	logs/
+
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+
+echo logs/ &gt; .gitignore
+git status
+git add .gitignore
+git commit -m  &quot;Update .gitignore.&quot;
+</code></pre>
+<p>Note that <code>.gitignore</code> works only for files that are not tracked by Git. For those already tracked by Git, we can remove them from the staging area only using <code>git rm</code> with additional options while keeping their counterparts in the working directory.</p>
+<h2 id="short-status">Short Status</h2>
+<pre><code>git status -s
+</code></pre>
+<p>The notations for each modified file can be summarized in two columns. The first column represents the status for the staging area and the second represents that for the working directory.</p>
+<h2 id="review-changes">Review Changes</h2>
+<pre><code>git diff --staged
+git diff
+</code></pre>
+<p>The first command compares the differences between the staging area and the last commit. The second command compares the differences between the working directory and the staging area. It&rsquo;s not convenient to review in the terminal, so we can use visual diff tools like VSCode.</p>
+<pre><code>git config --global diff.tool vscode
+git config --global difftool.vscode.cmd &quot;code --wait --diff $LOCAL $REMOTE&quot;
+</code></pre>
+<p>For some reason, <code>$LOCAL $REMOTE</code> are missing in the configuration file, so we need to add them manually.</p>
+<pre><code>git config --global -e
+</code></pre>
+<p>Then we can use VSCode as the diff tool.</p>
+<pre><code>git difftool
+git difftool --staged
+</code></pre>
+<h3 id="commit-logs">Commit Logs</h3>
+<pre><code>git log
+git log --oneline
+de8e33e (HEAD -&gt; main) Update file1.txt
+ae4d342 Update .gitignore.
+f0b51be Addition.
+2e4dbc7 Addition.
+b25f8d3 Addition.
+e9ce9aa Addition.
+3caa998 Addition.
+9b90c3d Addition.
+be584f7 Addition.
+7b0dba5 Addition.
+b55daba Addition.
+dd27753 Deletion.
+be90859 My initial commit.
+ef87a25 Initial Commit.
+git log --oneline --reverse
+
+</code></pre>
+<h3 id="view-the-commits">View the Commits</h3>
+<p>One can view the detailed specification of commits by  <code>git show</code>. Git identifier or <code>HEAD</code>, <code>HEAD~1</code> can specify the commit.</p>
+<pre><code>git show ef87
+git show HEAD
+git show HEAD~1
+git show HEAD~2
+</code></pre>
+<p>One may want to see the final version of a commit instead of the detailed process.</p>
+<pre><code>git show be90:file2.txt
+git ls-tree be90
+</code></pre>
+<h3 id="unstage-files">Unstage Files</h3>
+<p>When we review files in the staging area, we may want to unstage some files instead of committing.</p>
+<pre><code>git restore --staged filename
+</code></pre>
+<p><code>git restore</code> essentially takes the copy from the next environment. In case of  <code>--staged</code>, it takes the copy from last commit.</p>
+<h3 id="discard-local-changes">Discard Local Changes</h3>
+<pre><code>git restore filename
+</code></pre>
+<p>Here <code>git restore</code> takes copy from the next environment, i.e. the staging area. For untracked files in the working directory, we can use <code>git clean</code> to remove them.</p>
+<pre><code>git clean -fd
+</code></pre>
+<h3 id="restore-a-file-to-an-earlier-version">Restore a File to an Earlier Version</h3>
+<pre><code>git rm file1.txt
+git commit -m &quot;remove file1.txt&quot;
+git restore --soure=HEAD~1 file1.txt
+</code></pre>
+<h2 id="notations">Notations</h2>
+<ul>
+<li><code>?</code> for untracked files</li>
+<li><code>+</code> for modified tracked but not committed files</li>
+<li><code>●</code> for modified tracked but not staged files</li>
+</ul>
+
+</main>
+
+<footer>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/math-code.min.js" defer></script>
+<script src="//cdn.jsdelivr.net/npm/katex/dist/katex.min.js" defer></script>
+<script src="//cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" defer></script>
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/render-katex.js" defer></script>
+
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/center-img.min.js" defer></script>
+    
+    <hr/>
+    © <a href="https://yihui.org">Yihui Xie</a> 2017 &ndash; 2025 | <a href="https://github.com/yihui">Github</a> | <a href="https://twitter.com/xieyihui">Twitter</a>
+    
+    </footer>
+    </body>
+  </html>
